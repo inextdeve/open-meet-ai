@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 const formSchema = z
   .object({
@@ -60,7 +61,26 @@ export const SignUpView = () => {
         name: data.name,
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
+      {
+        onSuccess: () => {
+          setPending(false);
+          router.push("/");
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        },
+      }
+    );
+  };
+
+  const onSocial = (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.social(
+      { provider, callbackURL: "/" },
       {
         onSuccess: () => {
           setPending(false);
@@ -189,16 +209,18 @@ export const SignUpView = () => {
                     type="button"
                     className="w-full"
                     variant="outline"
+                    onClick={() => onSocial("google")}
                   >
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button
                     disabled={pending}
                     type="button"
                     className="w-full"
                     variant="outline"
+                    onClick={() => onSocial("github")}
                   >
-                    Github
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className="text-center text-sm">

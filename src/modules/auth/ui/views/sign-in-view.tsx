@@ -60,7 +60,7 @@ export const SignInView = () => {
           setPending(false);
           setError(error.message);
         },
-      }
+      },
     );
   };
 
@@ -72,13 +72,12 @@ export const SignInView = () => {
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
         },
         onError: ({ error }) => {
           setPending(false);
           setError(error.message);
         },
-      }
+      },
     );
   };
 
@@ -176,7 +175,7 @@ export const SignInView = () => {
                 <div className="text-center text-sm">
                   Don't have an account ?{" "}
                   <Link
-                    href="/auth/sign-up"
+                    href="/sign-up"
                     className="underline underline-offset-4"
                   >
                     Sign up
@@ -185,7 +184,7 @@ export const SignInView = () => {
               </div>
             </form>
           </Form>
-          <div className="bg-radial from-green-700 to-green-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
+          <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col gap-y-4 items-center justify-center">
             <img src="/logo.svg" alt="logo" className="h-[92px] w-[92px]" />
             <p className="text-2xl font-semibold text-white">Open Meet</p>
           </div>

@@ -9,13 +9,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { GeneratedAvatar } from "@/components/generated-avatar";
-import { ChevronDown, CreditCard } from "lucide-react";
+import { ChevronDown, CreditCard, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const DashboardUserButton = () => {
   const router = useRouter();
+  const isMobile = useIsMobile();
+
   const { data, isPending } = authClient.useSession();
 
   const onLogout = () => {
@@ -30,6 +45,47 @@ export const DashboardUserButton = () => {
 
   if (isPending || !data?.session) {
     return null;
+  }
+
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger>
+          {data.user.image ? (
+            <Avatar>
+              <AvatarImage src={data.user.image} alt={data.user.name} />
+            </Avatar>
+          ) : (
+            <GeneratedAvatar
+              seed={data.user.name}
+              variant="initials"
+              className="size-9 mr-3"
+            />
+          )}
+          <div className="flex flex-col gap-0 5 text-left overflow-hidden flex-1 min-w-0">
+            <p className="text-sm truncate w-full">{data.user.name}</p>
+            <p className="text-xs truncate w-full">{data.user.email}</p>
+          </div>
+          <ChevronDown className="size-4 shrink-0" />
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{data.user.name}</DrawerTitle>
+            <DrawerDescription>{data.user.email}</DrawerDescription>
+          </DrawerHeader>
+          <DrawerFooter>
+            <Button variant="outline">
+              Billing
+              <CreditCard className="size-4 text-black" />
+            </Button>
+            <Button onClick={onLogout} variant="outline">
+              Logout
+              <LogOut className="size-4 text-black" />
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
   }
 
   return (
@@ -71,7 +127,7 @@ export const DashboardUserButton = () => {
           className="cursor-pointer flex items-center justify-between"
         >
           Logout
-          <CreditCard className="size-4" />
+          <LogOut className="size-4" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

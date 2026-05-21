@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+
 import { TRPCReactProvider } from "@/trpc/client";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -21,13 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <TRPCReactProvider>
-      <html lang="en" className={`${inter.className} h-full antialiased`}>
-        <body className="min-h-full flex flex-col">
-          <Toaster />
-          {children}
-        </body>
-      </html>
-    </TRPCReactProvider>
+    <NuqsAdapter>
+      <TRPCReactProvider>
+        <html lang="en" className={`${inter.className} h-full antialiased`}>
+          <body className="min-h-full flex flex-col">
+            <Toaster />
+            {children}
+          </body>
+        </html>
+      </TRPCReactProvider>
+    </NuqsAdapter>
   );
 }

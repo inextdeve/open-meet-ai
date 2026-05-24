@@ -13,7 +13,7 @@ export const MeetingsListHeader = () => {
       <NewMeetingDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
       <div className="p-4 md:px-8 flex flex-col gap-y-4">
         <div className="flex items-center justify-between">
-          <h5 className="font-meduim text-xl">My Meetings</h5>
+          <h5 className="font-medium text-xl">My Meetings</h5>
           <Button
             onClick={() => {
               setIsDialogOpen(true);

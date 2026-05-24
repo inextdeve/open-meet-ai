@@ -17,12 +17,11 @@ interface Props {
 export const DashboardCommand = ({ open, setOpen }: Props) => {
   return (
     <CommandResponsiveDialog open={open} onOpenChange={setOpen}>
-      <Command>
-        <CommandInput placeholder="Find a meeting or agent" />
-        <CommandList>
-          <CommandItem>Test</CommandItem>
-        </CommandList>
-      </Command>
+      <CommandInput placeholder="Find a meeting or agent" />
+      <CommandList>
+        <CommandItem>Test</CommandItem>
+        <CommandItem>Test2</CommandItem>
+      </CommandList>
     </CommandResponsiveDialog>
   );
 };

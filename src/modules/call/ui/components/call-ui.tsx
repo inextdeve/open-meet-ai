@@ -1,5 +1,5 @@
-import { StreamTheme, useCall } from "@stream-io/video-react-sdk";
 import { useState } from "react";
+import { StreamTheme, useCall } from "@stream-io/video-react-sdk";
 import { CallLobby } from "./call-lobby";
 import { CallActive } from "./call-active";
 import { CallEnded } from "./call-ended";
@@ -20,11 +20,10 @@ export const CallUI = ({ meetingName }: Props) => {
     setShow("call");
   };
 
-  const handleLeave = async () => {
+  const handleLeave = () => {
     if (!call) return;
 
-    await call.endCall();
-
+    call.endCall();
     setShow("ended");
   };
 

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
 import { generateAvatarUri } from "@/lib/avatar";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@stream-io/video-react-sdk";
 import { LogInIcon } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 interface Props {
   onJoin: () => void;
@@ -38,7 +38,12 @@ const DisabledVideoPreview = () => {
 };
 
 const AllowBrowserPermissions = () => {
-  return <p>Please grant camera and microphone permissions</p>;
+  return (
+    <p className="text-sm">
+      Please grant your browser a permission to access your camera and
+      microphone.
+    </p>
+  );
 };
 
 export const CallLobby = ({ onJoin }: Props) => {
@@ -48,6 +53,8 @@ export const CallLobby = ({ onJoin }: Props) => {
   const { hasBrowserPermission: hasCameraPermission } = useCameraState();
 
   const hasBrowserMediaPermission = hasCameraPermission && hasMicPermission;
+
+  const [isJoinDisabled, setIsJoinDisabled] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center h-full bg-radial from-sidebar-accent to-sidebar">
@@ -72,7 +79,13 @@ export const CallLobby = ({ onJoin }: Props) => {
             <Button asChild variant="ghost">
               <Link href="/meetings">Cancel</Link>
             </Button>
-            <Button>
+            <Button
+              disabled={isJoinDisabled}
+              onClick={() => {
+                setIsJoinDisabled(true);
+                onJoin();
+              }}
+            >
               <LogInIcon />
               Join Call
             </Button>

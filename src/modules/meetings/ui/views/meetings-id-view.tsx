@@ -44,6 +44,7 @@ export const MeetingIdView = ({ meetingId }: Props) => {
     trpc.meetings.remove.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}));
+        queryClient.invalidateQueries(trpc.premium.getFreeUsage.queryOptions());
         router.push("/meetings");
       },
       onError: (error) => {
